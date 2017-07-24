@@ -1,0 +1,164 @@
+#!usr/bin/perl
+use strict;
+use warnings;
+use List::Util qw( min max );
+
+my $trim;
+my $rn;
+my $dataset;
+my $gene_short_name;
+my $key;
+my $locuskey;
+my %locushash;
+my %locusmin;
+my %locusmax;
+my %FPKMhash;
+my %ALTEREDhash;
+my @scrappedgene_short_names;
+
+#merges a genes.fpkm_tracking file based on the gene_short_name only. Chromosome locus is set to be the min/max values for all merged rows and the FPKM values are added together.
+
+unless (-e 'altered'){
+system "mkdir altered";
+system "mkdir altered/trimmed";
+system "mkdir altered/untrimmed";
+}
+
+unless (-e 'final'){
+system "mkdir final";
+system "mkdir final/trimmed";
+system "mkdir final/untrimmed";
+}
+
+system "updatedb";
+#locates all genes.fpkm_tracking files on the computer from the results of the pipelines (max of 20 results should be found)
+my @filename=`locate *groupproject*cuff2*genes.fpkm_tracking`;
+my $length = scalar @filename;
+print "$length files have been found\n";
+print "Merging isoforms for\n";
+
+#opens each file found, one at a time and runs through the workflow
+for my $filename(@filename){
+    $filename=~/(untrimmed|trimmed).*(Rn[46]).*(\d{4})/ig; #checked
+    $trim= $1;  #checked
+    $rn = $2;   #checked
+    $dataset=$3;#checked
+    chomp $filename; #checked
+    print $trim."_".$rn."_".$dataset."\n"; #checked
+    open IN, '<', "$filename" or die "Could not open $filename; $!"; #checked
+    open OUT, '>',"altered/".$trim."/".$trim."_".$rn."_".$dataset."_altered" or die"Could not open". $trim."_".$rn."_".$dataset."_altered.\n";#checked
+        
+        
+#whilst there is a line in the INFILE it is read into the script        
+        while (<IN>){                       #checked
+            my $line = $_;
+            	        
+# If the line is the first line then it will be printed straight to the OUTFILE	        
+	        if ($line =~m/^tracking_id/){   #checked
+	            $line =~ s/FPKM/$dataset/;     #checked 
+		        print OUT $line;            #checked
+		        next;           
+            } 
+#otherwise the line is split by \t and the 5th column(gene short name) is checked, if it is - it will be printed direct to the outfile as cannot merge by gene name if it doesn't have one. 
+#also checks if there is             
+            else {
+                my @line = split "\t", $line;       #checked
+                if ($line[4]eq"-"){ 
+                print OUT $line;                #checked
+                    next;
+                }
+                elsif ($line[4] =~ /,/ig){ 
+                    my @line4 = split(/,/, $line[4]);
+                    for my $i (0..$#line4) {
+                        push @scrappedgene_short_names, $line4[$i]."_".$rn."_".$trim;
+                    }
+                    next;
+		        } else {
+# Key for all hashes is now defined as the (gene_short_name)_(rn)_(dataset)_(trim) with the locus key removing the dataset so the locus is merged across all 5 datasets of the same Rn.                
+                $gene_short_name=$line[4]; 
+                $key = $gene_short_name."_".$rn."_".$dataset."_".$trim;                   #checked
+                $locuskey = $gene_short_name."_".$rn."_".$trim;
+                }
+
+#LOCUS HASH DEFINING
+#The locus is split to three parts - the identifier bit at the beginning, the start and then the end site.                
+                $line[6]=~m/([\w-]*):(\d*)-(\d*)/ig;                #checked
+                my $chr = $1;                                       #checked
+                my $begin = $2;                                     #checked
+                my $end = $3;                                       #checked
+                
+#sets the key and start of the locushash as the chr will not change based on the isoform, just the start/end site; then sets the line locus to the new locus.
+                
+                $locusmin{$locuskey}=$begin if !$locusmin{$locuskey} || $begin < $locusmin{$locuskey}; #checked
+                $locusmax{$locuskey}=$end if !$locusmax{$locuskey} || $end > $locusmax{$locuskey};     #checked
+                $locushash{$locuskey}=$chr.":".$locusmin{$locuskey}."-".$locusmax{$locuskey};          #checked
+                
+#FPKM HASH DEFINING
+#Takes FPKM value of each row and assigns it to the FPKMhash, this is then assigned back to the line FPKM value.                
+               $FPKMhash{$key}+=$line[9];
+               $line[9]=$FPKMhash{$key};                                                               #checked
+           
+#ALTERED HASH DEFINING
+#Takes the values from locus hash and FPKM hash and replaces the relevant values of $line.
+
+                $line = join "\t", @line;
+                $ALTEREDhash{$key}=$line;           
+            }   
+        }  
+    while ((my $key, my $value) = each(%ALTEREDhash)){
+        print OUT $value; 
+    }
+%ALTEREDhash=();    
+}    
+
+my %scrapped_gene_short_names = map { $_ => 1 } @scrappedgene_short_names;
+
+system "updatedb";
+@filename=`locate *groupproject*altered*_altered*`;
+$length = scalar @filename;
+print "Correcting locus for each gene and removing overlapping genes in\n";
+
+#opens each file found, one at a time and runs through the workflow
+for my $filename(@filename){
+    $filename=~/(untrimmed|trimmed).*(Rn[46]).*(\d{4})/ig; #checked
+    $trim= $1;  #checked
+    $rn = $2;   #checked
+    $dataset=$3;#checked
+    chomp $filename; #checked
+    print $trim."_".$rn."_".$dataset."\n"; #checked
+    open IN, '<', "$filename" or die "Could not open $filename; $!"; #checked
+    open OUT, '>',"final/".$trim."/".$trim."_".$rn."_".$dataset."_final" or die"Could not open". $trim."_".$rn."_".$dataset."_final.\n";#checked
+    while (<IN>){                       #checked
+            my $line = $_;
+	        if ($line =~m/^tracking_id/){   #checked
+		        print OUT $line;            #checked
+		        next;            
+            } else {
+                my @line = split "\t", $line;       #checked
+                $gene_short_name=$line[4];
+                my $checkname = $gene_short_name."_".$rn."_".$trim;
+		        if ($gene_short_name eq"-"){                 #checked
+                    print OUT $line;                #checked
+                    next;
+                } elsif ($gene_short_name =~ /,/ig){ 
+                    next;
+                } elsif ( exists($scrapped_gene_short_names{$checkname})) {
+                    next;
+#Key for locushash is now defined as the (gene_short_name)_(rn)_(trim).               
+                } else {      
+                    $locuskey = $gene_short_name."_".$rn."_".$trim;
+                }
+                $line[6]=$locushash{$locuskey};
+                $line = join "\t", @line;
+                $ALTEREDhash{$locuskey}=$line;
+            }
+        }
+    while ((my $key, my $value) = each(%ALTEREDhash)){
+        if ( exists($scrapped_gene_short_names{$locuskey})) {
+            next;
+        } else {
+            print OUT $value; 
+        }
+    }
+        %ALTEREDhash=(); 
+} 
