@@ -19,7 +19,7 @@ my @scrapped_gene_short_names;
 #genes from defined categories of datasets (Rn4/6, trimmed/untrimmed) are normalised to each other and any artifacts produced by cufflinks are removed.
 #All genes from all samples per category have their isoforms merged into the main gene, the full locus coordinates are then taken from all isoforms and provided as the new locus coordinates for the merged gene.
 #Cufflinks cannot always correctly identify overlapping genes, due to this any genes which are overlapping and cufflinks hasn't been able to differentiate them are removed. If cufflinks cannot differentiate genes it will report two genes in one row and combine their FPKM, as this cannot be split the genes can no longer be analysed so all mention of the genes are removed from that category.
-#edit
+
 #This program should be ran using sudo to ensure updatedb is successful. Therefore the following lines check if this was ran with sudo, if not the program is terminated and advises to rerun as sudo.
 if ( $< != 0 ) {
 print "This script must be run using sudo to ensure full and accurate functionality.\n"; 
