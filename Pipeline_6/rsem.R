@@ -11,7 +11,7 @@ rm(list=ls())
 #name <- "rn4_trimmed"
 #name <- "rn4_untrimmed"
 #name <- "rn6_trimmed"
-#name <- "rn6_untrimmed"
+name <- "rn6_untrimmed"
 
 rawdata <- read.delim(paste('/home/sjrh2/Steered/edgeR/',name,'.tsv', sep =""), header = TRUE, sep = "\t", row.names = 1)
 
@@ -36,7 +36,8 @@ con <- makeContrasts(Treatment - Control, levels=design)
 
 qlf <- glmQLFTest(fit, contrast=con)
 treat <- glmTreat(fit, coef = ncol(fit$design), contrast = con, lfc = log2(1.5))
-
+treat$table$FC <- 2^(abs(treat$table$logFC))
+treat$table$FC <- ifelse(treat$table$logFC <0, treat$table$FC*(-1), treat$table$FC*1)
 
 
 ## Save QLF Results
@@ -72,3 +73,5 @@ plot(treat$table$logFC, -log10(treat$table$PValue), pch=19, cex=0.2, col=ifelse(
 abline(h=1.3, col="blue")
 abline(h=2, col="green")
 dev.off()
+
+#treat$table[c("Myc","Fzd4","Tlcd1","Xiap"),]
