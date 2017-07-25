@@ -35,7 +35,7 @@ fit <- glmQLFit(dge, design, robust=TRUE)
 con <- makeContrasts(Treatment - Control, levels=design)
 
 qlf <- glmQLFTest(fit, contrast=con)
-treat <- glmTreat(fit, coef = ncol(fit$design), contrast = con, lfc = 1.5)
+treat <- glmTreat(fit, coef = ncol(fit$design), contrast = con, lfc = log2(1.5))
 
 
 
