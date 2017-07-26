@@ -1,28 +1,29 @@
 #!/usr/bin/perl
-# Produces perl DBM of rat genome annotation, for transcripts and genes. There are some EnsEMBL genes/transcripts which do not have a corresponding common name.
+# Produces perl DBM of rat genome annotation, for EnsEMBL gene IDs => common gene names. 
+#There are some EnsEMBL genes/transcripts which do not have a corresponding common name.
 use strict;
 use warnings;
 
 my %TXES; my %GENES;
 my $og; my $ng;
-my $ot; my $nt;
 my $nmc;
 
-open (IN, "<genes2.gtf") or die "Could not find genes2.gtf";
-dbmopen (%GENES, "rn6_Ens_genes", 0755) or die "No gene db!";
-dbmopen (%TXES, "rn6_Ens_txes", 0755) or die "No tx db!";
+unless (scalar(@ARGV) == 2) {
+	print"Usage: perl makegendb.pl <input gtf> <database name>\n";
+	exit;
+}
+
+open (IN, "<$ARGV[0]") or die "Could not find $ARGV[0] \n";
+dbmopen (%GENES, "@ARGV[1]", 0755) or die "Could not create gene database";
 
 
 while (<IN>) {
-	if ($_ =~ /gene_id "(.+)"; gene_name "(.+)"; gene_source.+transcript_id "(.+)"; transcript_name "(.+)"; transcript_source/) {
+	if ($_ =~ /gene_id "(.+)"; gene_name "(.+)"; gene_source./) {
 
 		$og = $1;
 		$ng = $2;
-		$ot = $3;
-		$nt = $4;
 
 		$GENES{$og} = $ng;
-		$TXES{$ot} = $nt;
 	}
 	else {
 		$nmc++;
@@ -30,6 +31,7 @@ while (<IN>) {
 	}
 }
 
+#Useful for ensuring the script worked as intended, or for debugging
 print "$nmc non-matching lines found";
 
-close IN; dbmclose %GENES; dbmclose %TXES;
+close IN; dbmclose %GENES;
