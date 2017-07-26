@@ -4,7 +4,7 @@
 use strict;
 use warnings;
 
-my %TXES; my %GENES;
+my %GENES;
 my $og; my $ng;
 my $nmc;
 
