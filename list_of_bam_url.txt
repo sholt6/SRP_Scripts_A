@@ -9,7 +9,7 @@ Tophat
 		trimmed
 			7973 - https://s3.eu-west-2.amazonaws.com/agenomestore/rn4_trimmed/tophat_7973/accepted_hits.sorted.bam
 			8033 - https://s3.eu-west-2.amazonaws.com/agenomestore/rn4_trimmed/tophat_8033/accepted_hits.sorted.bam
-			8043 - https://s3.eu-west-2.amazonaws.com/agenomestore/rn4_trimmed/tophat_8043/accepted_hits.bam
+			8043 - https://s3.eu-west-2.amazonaws.com/agenomestore/rn4_trimmed/tophat_8043/accepted_hits.sorted.bam
 			8050 - https://s3.eu-west-2.amazonaws.com/agenomestore/rn4_trimmed/tophat_8050/accepted_hits.sorted.bam
 			8059 - https://s3.eu-west-2.amazonaws.com/agenomestore/rn4_trimmed/tophat_8059/accepted_hits.sorted.bam
 	rn6
