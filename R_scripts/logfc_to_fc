@@ -1,0 +1,29 @@
+## This script was used to change logFC to FC
+
+## Necessary package and library required
+source("http://www.bioconductor.org/biocLite.R")
+biocLite(pkgs = c("readr"))
+library("readr")
+
+##### Reads all necessary files into R variables
+p5_trimmed_rn4 <- read_delim("~/Steered/Cufflinks_stats/Treat/P5_results_Rn4_trimmed.csv","\t", escape_double = FALSE, trim_ws = TRUE)
+p5_untrimmed_rn4 <- read_delim("~/Steered/Cufflinks_stats/Treat/P5_results_Rn4_untrimmed.csv","\t", escape_double = FALSE, trim_ws = TRUE)
+p5_trimmed_rn6 <- read_delim("~/Steered/Cufflinks_stats/Treat/P5_results_Rn6_trimmed.csv","\t", escape_double = FALSE, trim_ws = TRUE)
+p5_untrimmed_rn6 <- read_delim("~/Steered/Cufflinks_stats/Treat/P5_results_Rn6_untrimmed.csv","\t", escape_double = FALSE, trim_ws = TRUE)
+
+p5_trimmed_rn4$FC<-2^(abs(p5_trimmed_rn4$logFC))
+p5_trimmed_rn4$FC<-ifelse(p5_trimmed_rn4$logFC <0, p5_trimmed_rn4$FC*(-1),p5_trimmed_rn4$FC*1)
+
+p5_untrimmed_rn4$FC<-2^(abs(p5_untrimmed_rn4$logFC))
+p5_untrimmed_rn4$FC<-ifelse(p5_untrimmed_rn4$logFC <0, p5_untrimmed_rn4$FC*(-1),p5_untrimmed_rn4$FC*1)
+
+p5_trimmed_rn6$FC<-2^(abs(p5_trimmed_rn6$logFC))
+p5_trimmed_rn6$FC<-ifelse(p5_trimmed_rn6$logFC <0, p5_trimmed_rn6$FC*(-1),p5_trimmed_rn6$FC*1)
+
+p5_untrimmed_rn6$FC<-2^(abs(p5_untrimmed_rn6$logFC))
+p5_untrimmed_rn6$FC<-ifelse(p5_untrimmed_rn6$logFC <0, p5_untrimmed_rn6$FC*(-1),p5_untrimmed_rn6$FC*1)
+
+write.table(p5_trimmed_rn4, file="~/Steered/Cufflinks_stats/Treat/P5_results_Rn4_trimmed.csv", row.names = FALSE ,sep="\t",quote=FALSE)
+write.table(p5_untrimmed_rn4, file="~/Steered/Cufflinks_stats/Treat/P5_results_Rn4_untrimmed.csv", row.names = FALSE ,sep="\t",quote=FALSE)
+write.table(p5_trimmed_rn6, file="~/Steered/Cufflinks_stats/Treat/P5_results_Rn6_trimmed.csv", row.names = FALSE ,sep="\t",quote=FALSE)
+write.table(p5_untrimmed_rn6, file="~/Steered/Cufflinks_stats/Treat/P5_results_Rn6_untrimmed.csv", row.names = FALSE ,sep="\t",quote=FALSE)
