@@ -1,0 +1,54 @@
+Tophat
+	rn4
+		untrimmed
+			7973 - https://s3.eu-west-2.amazonaws.com/agenomestore/rn4_untrimmed_7973/accepted_hits.sorted.bam
+			8033 - https://s3.eu-west-2.amazonaws.com/agenomestore/rn4_untrimmed_8033/accepted_hits_sorted.bam
+			8043 - https://s3.eu-west-2.amazonaws.com/agenomestore/rn4_untrimmed_tophat_8043/accepted_hits_sorted.bam
+			8050 - https://s3.eu-west-2.amazonaws.com/agenomestore/rn4_untrimmed_tophat_8050/accepted_hits_sorted.bam
+			8059 - https://s3.eu-west-2.amazonaws.com/agenomestore/rn4_untrimmed_tophat_8059/accepted_hits_sorted.bam
+		trimmed
+			7973 - https://s3.eu-west-2.amazonaws.com/agenomestore/rn4_trimmed/tophat_7973/accepted_hits.sorted.bam
+			8033 - https://s3.eu-west-2.amazonaws.com/agenomestore/rn4_trimmed/tophat_8033/accepted_hits.sorted.bam
+			8043 - https://s3.eu-west-2.amazonaws.com/agenomestore/rn4_trimmed/tophat_8043/accepted_hits.bam.bai
+			8050 - https://s3.eu-west-2.amazonaws.com/agenomestore/rn4_trimmed/tophat_8050/accepted_hits.sorted.bam
+			8059 - https://s3.eu-west-2.amazonaws.com/agenomestore/rn4_trimmed/tophat_8059/accepted_hits.sorted.bam
+	rn6
+		untrimmed
+			7973 - https://s3.eu-west-2.amazonaws.com/agenomestore/rn6_untrimmed/rat_7973/accepted_hits_sorted.bam
+			8033 - https://s3.eu-west-2.amazonaws.com/agenomestore/rn6_untrimmed/rat_8033/accepted_hits_sorted.bam
+			8043 - https://s3.eu-west-2.amazonaws.com/agenomestore/rn6_untrimmed/rat_8043/accepted_hits_sorted.bam
+			8050 - https://s3.eu-west-2.amazonaws.com/agenomestore/rn6_untrimmed/rat_8050/accepted_hits_sorted.bam
+			8059 - https://s3.eu-west-2.amazonaws.com/agenomestore/rn6_untrimmed/rat_8059/accepted_hits_sorted.bam
+		trimmed
+			7973 - https://s3.eu-west-2.amazonaws.com/agenomestore/rn6_trimmed/tophat_7973/accepted_hits_sorted.bam
+			8033 - https://s3.eu-west-2.amazonaws.com/agenomestore/rn6_trimmed/tophat_8033/accepted_hits_sorted.bam
+			8043 - https://s3.eu-west-2.amazonaws.com/agenomestore/rn6_trimmed/tophat_8043/accepted_hits_sorted.bam
+			8050 - https://s3.eu-west-2.amazonaws.com/agenomestore/rn6_trimmed/tophat_8050/accepted_hits_sorted.bam
+			8059 - https://s3.eu-west-2.amazonaws.com/agenomestore/rn6_trimmed/tophat_8059/accepted_hits_sorted.bam
+rsem
+	rn4
+		untrimmed
+			7973 - https://s3.eu-west-2.amazonaws.com/agenomestore/Rsem/Rsem_Untrimmed/rn4/rat_7973/transcript.sorted.bam
+			8033 - https://s3.eu-west-2.amazonaws.com/agenomestore/Rsem/Rsem_Untrimmed/rn4/rat_8033/transcript.sorted.bam
+			8043 - https://s3.eu-west-2.amazonaws.com/agenomestore/Rsem/Rsem_Untrimmed/rn4/rat_8043/transcript.sorted.bam
+			8050 - https://s3.eu-west-2.amazonaws.com/agenomestore/Rsem/Rsem_Untrimmed/rn4/rat_8050/transcript.sorted.bam
+			8059 - https://s3.eu-west-2.amazonaws.com/agenomestore/Rsem/Rsem_Untrimmed/rn4/rat_8059/transcript.sorted.bam
+		trimmed
+			7973 - https://s3.eu-west-2.amazonaws.com/agenomestore/Rsem/Rsem_trimmed/rn4/rat_7973/transcript.sorted.bam
+			8033 - https://s3.eu-west-2.amazonaws.com/agenomestore/Rsem/Rsem_trimmed/rn4/rat_8033/transcript.sorted.bam
+			8043 - https://s3.eu-west-2.amazonaws.com/agenomestore/Rsem/Rsem_trimmed/rn4/rat_8043/transcript.sorted.bam
+			8050 - https://s3.eu-west-2.amazonaws.com/agenomestore/Rsem/Rsem_trimmed/rn4/rat_8050/transcript.sorted.bam
+			8059 - https://s3.eu-west-2.amazonaws.com/agenomestore/Rsem/Rsem_trimmed/rn4/rat_8059/transcript.sorted.bam
+	rn6
+		untrimmed
+			7973 - https://s3.eu-west-2.amazonaws.com/agenomestore/Rsem/Rsem_Untrimmed/rn6/rat_7973/transcript.sorted.bam
+			8033 - https://s3.eu-west-2.amazonaws.com/agenomestore/Rsem/Rsem_Untrimmed/rn6/rat_8033/transcript.sorted.bam
+			8043 - https://s3.eu-west-2.amazonaws.com/agenomestore/Rsem/Rsem_Untrimmed/rn6/rat_8043/transcript.sorted.bam
+			8050 - https://s3.eu-west-2.amazonaws.com/agenomestore/Rsem/Rsem_Untrimmed/rn6/rat_8050/transcript.sorted.bam
+			8059 - https://s3.eu-west-2.amazonaws.com/agenomestore/Rsem/Rsem_Untrimmed/rn6/rat_8059/transcript.sorted.bam
+		trimmed
+			7973 - https://s3.eu-west-2.amazonaws.com/agenomestore/Rsem/Rsem_trimmed/rn6/rat_7973/transcript.sorted.bam
+			8033 - https://s3.eu-west-2.amazonaws.com/agenomestore/Rsem/Rsem_trimmed/rn6/rat_8033/transcript.sorted.bam
+			8043 - https://s3.eu-west-2.amazonaws.com/agenomestore/Rsem/Rsem_trimmed/rn6/rat_8043/transcript.sorted.bam
+			8050 - https://s3.eu-west-2.amazonaws.com/agenomestore/Rsem/Rsem_trimmed/rn6/rat_8050/transcript.sorted.bam
+			8059 - https://s3.eu-west-2.amazonaws.com/agenomestore/Rsem/Rsem_trimmed/rn6/rat_8059/transcript.sorted.bam
