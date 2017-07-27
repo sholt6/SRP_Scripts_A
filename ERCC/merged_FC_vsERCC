@@ -1,0 +1,61 @@
+## This script was used to merge all FC outputs from pipelines 5 & 6, trimmed and untrimmed, Rn4 and Rn6 vs ERCC FC
+
+
+## Necessary package and library required
+source("http://www.bioconductor.org/biocLite.R")
+biocLite(pkgs = c("readr"))
+library("readr")
+
+##### Pipeline 5 merging #####
+
+##### Reads all necessary files into R variables
+p5_trimmed_rn4 <- read_delim("~/Steered/Cufflinks_stats/Treat/P5_results_Rn4_trimmed.csv","\t", escape_double = FALSE, trim_ws = TRUE)
+p5_untrimmed_rn4 <- read_delim("~/Steered/Cufflinks_stats/Treat/P5_results_Rn4_untrimmed.csv","\t", escape_double = FALSE, trim_ws = TRUE)
+p5_trimmed_rn6 <- read_delim("~/Steered/Cufflinks_stats/Treat/P5_results_Rn6_trimmed.csv","\t", escape_double = FALSE, trim_ws = TRUE)
+p5_untrimmed_rn6 <- read_delim("~/Steered/Cufflinks_stats/Treat/P5_results_Rn6_untrimmed.csv","\t", escape_double = FALSE, trim_ws = TRUE)
+ercc <- read_delim("~/Steered/ERCC/ERCC_Controls_Analysis.csv","\t", escape_double = FALSE, trim_ws = TRUE)
+
+## Merges P5 FC results 
+merged_genes<-merge(p5_trimmed_rn4[,c(1,7)],p5_untrimmed_rn4[,c(1,7)], by ="gene_short_name", all=TRUE)
+merged_genes<-merge(merged_genes,p5_trimmed_rn6[,c(1,7)], by ="gene_short_name", all=TRUE)
+merged_genes<-merge(merged_genes,p5_untrimmed_rn6[,c(1,7)], by ="gene_short_name", all=TRUE)
+
+## Only looks at ERCC controls
+ercc_genes<- merged_genes[grep("ERCC",merged_genes$gene_short_name, invert=FALSE),]
+
+## Renames columns accordingly
+colnames(ercc_genes)[1:5]<- c ("ERCC_ID", "FC_Trim_Rn4", "FC_Untrim_Rn4", "FC_Trim_Rn6", "FC_Untrim_Rn6")
+
+merged_ercc_genes<-merge(ercc[,c(2,6)],ercc_genes[,c(1:5)], by ="ERCC_ID", all=TRUE)
+
+## Print P5vsERCC genes into file 
+write.table(merged_ercc_genes, file="~/Steered/Github_files/ERCC_related/P5vsERCC.csv", row.names = FALSE ,sep="\t",quote=FALSE)
+
+
+
+
+
+##### Pipeline 6 merging #####
+
+##### Reads all necessary files into R variables
+p6_trimmed_rn4 <- read_delim("~/Steered/RSEM_stats/Treat/rn4_trimmed_Treat_logFC","\t", escape_double = FALSE, trim_ws = TRUE)
+p6_untrimmed_rn4 <- read_delim("~/Steered/RSEM_stats/Treat/rn4_untrimmed_Treat_logFC","\t", escape_double = FALSE, trim_ws = TRUE)
+p6_trimmed_rn6 <- read_delim("~/Steered/RSEM_stats/Treat/rn6_trimmed_Treat_logFC","\t", escape_double = FALSE, trim_ws = TRUE)
+p6_untrimmed_rn6 <- read_delim("~/Steered/RSEM_stats/Treat/rn6_untrimmed_Treat_logFC","\t", escape_double = FALSE, trim_ws = TRUE)
+
+## Merges P6 FC results 
+merged_genes<-merge(p6_trimmed_rn4[,c(1,6)],p6_untrimmed_rn4[,c(1,6)], by ="gene_short_name", all=TRUE)
+merged_genes<-merge(merged_genes,p6_trimmed_rn6[,c(1,6)], by ="gene_short_name", all=TRUE)
+merged_genes<-merge(merged_genes,p6_untrimmed_rn6[,c(1,6)], by ="gene_short_name", all=TRUE)
+
+## Only looks at ERCC controls
+ercc_genes<- merged_genes[grep("ERCC",merged_genes$gene_short_name, invert=FALSE),]
+
+## Renames columns accordingly
+colnames(ercc_genes)[1:5]<- c ("ERCC_ID", "FC_Trim_Rn4", "FC_Untrim_Rn4", "FC_Trim_Rn6", "FC_Untrim_Rn6")
+
+merged_ercc_genes<-merge(ercc[,c(2,6)],ercc_genes[,c(1:5)], by ="ERCC_ID", all=TRUE)
+
+
+## Print P6vsERCC genes into file 
+write.table(merged_ercc_genes, file="~/Steered/Github_files/ERCC_related/P6vsERCC.csv", row.names = FALSE ,sep="\t",quote=FALSE)
